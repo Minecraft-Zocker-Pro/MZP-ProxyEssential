@@ -5,3 +5,4 @@ version: 0.0.1
 server: play.minecraftzocker.net
 homepage: www.minecraftzocker.net
 depends: [ MZP-ProxyCore ]
+softdepends: [ LiteBans ]

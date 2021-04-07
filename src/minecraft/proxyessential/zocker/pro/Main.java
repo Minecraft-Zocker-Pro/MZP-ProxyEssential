@@ -11,6 +11,8 @@ import net.md_5.bungee.api.plugin.PluginManager;
 
 public class Main extends CorePlugin {
 
+	public static boolean IS_LITE_BANS_LOADED;
+
 	public static Config ESSENTIAL_CONFIG;
 	public static Config ESSENTIAL_MESSAGE;
 
@@ -23,6 +25,10 @@ public class Main extends CorePlugin {
 		this.verifyDatabase();
 		this.registerCommand();
 		this.registerListener();
+
+		if (ProxyServer.getInstance().getPluginManager().getPlugin("LiteBans") != null) {
+			IS_LITE_BANS_LOADED = true;
+		}
 	}
 
 	public void buildConfig() {
@@ -36,6 +42,7 @@ public class Main extends CorePlugin {
 
 		ESSENTIAL_MESSAGE.set("message.prefix", "&6&l[MZP]&3 ", "0.0.1");
 		ESSENTIAL_MESSAGE.set("message.player.offline", "&3Player &6%player% &3is offline.", "0.0.1");
+		ESSENTIAL_MESSAGE.set("message.player.muted", "&6You &3are muted!", "0.0.1");
 
 		ESSENTIAL_MESSAGE.set("message.command.ping.self", "&3Your ping &6%ping% ms.", "0.0.1");
 

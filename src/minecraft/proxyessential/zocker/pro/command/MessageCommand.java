@@ -1,5 +1,6 @@
 package minecraft.proxyessential.zocker.pro.command;
 
+import litebans.api.Database;
 import minecraft.proxycore.zocker.pro.OfflineZocker;
 import minecraft.proxycore.zocker.pro.command.Command;
 import minecraft.proxycore.zocker.pro.network.NetworkPlayerManager;
@@ -63,6 +64,14 @@ public class MessageCommand extends Command {
 				return;
 			}
 
+			// Is player muted
+			if (Main.IS_LITE_BANS_LOADED) {
+				if (Database.get().isPlayerMuted((((ProxiedPlayer) sender).getUniqueId()), null)) {
+					sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.player.muted")));
+					return;
+				}
+			}
+
 			OfflineZocker receiverOfflineZocker = new OfflineZocker(receiverUUID);
 			NetworkPlayerManager networkPlayerManager = new NetworkPlayerManager();
 
@@ -110,7 +119,7 @@ public class MessageCommand extends Command {
 							.replace("%receiver%", proxiedReceiverPlayer.getName())
 							.replace("%message%", messageBuilder.toString())));
 					}
-					
+
 					proxiedReceiverPlayer.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.command.message.receiver")
 						.replace("%prefix%", Main.ESSENTIAL_MESSAGE.getString("message.prefix"))
 						.replace("%sender%", sender.getName())
