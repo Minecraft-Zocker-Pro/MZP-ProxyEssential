@@ -46,6 +46,7 @@ public class Main extends CorePlugin {
 
 		ESSENTIAL_MESSAGE.set("message.command.ping.self", "&3Your ping &6%ping% ms.", "0.0.1");
 
+		ESSENTIAL_MESSAGE.set("message.command.message.usage", "&3Use &6/msg <player> &3to send a message to a player", "0.0.1");
 		ESSENTIAL_MESSAGE.set("message.command.message.self", "&3You can't message yourself!", "0.0.1");
 		ESSENTIAL_MESSAGE.set("message.command.message.sender", "%prefix%&3You&6 > &3%receiver%&6 >>&f %message%", "0.0.1");
 		ESSENTIAL_MESSAGE.set("message.command.message.receiver", "%prefix%&3%sender%&6 > &3You&6 >>&f %message%", "0.0.1");

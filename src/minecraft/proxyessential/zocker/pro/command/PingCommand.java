@@ -25,9 +25,9 @@ public class PingCommand extends Command {
 	public void onExecute(CommandSender sender, String[] args) {
 		if (sender instanceof ProxiedPlayer) {
 			Zocker zocker = Zocker.getZocker(((ProxiedPlayer) sender).getUniqueId());
-			sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.ping.self").replace("%ping%", String.valueOf(new NetworkPlayerManager().getPing(zocker).join()))));
+			sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.ping.self").replace("%ping%", String.valueOf(new NetworkPlayerManager().getPing(zocker).join()))));
 		} else {
-			sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.ping.self").replace("%ping%", "0")));
+			sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.ping.self").replace("%ping%", "0")));
 		}
 	}
 }

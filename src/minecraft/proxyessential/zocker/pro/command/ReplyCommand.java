@@ -37,15 +37,17 @@ public class ReplyCommand extends Command {
 		if (sender instanceof ProxiedPlayer) {
 			if (args.length <= 0) {
 				TextComponent textComponent = new TextComponent();
+
 				textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/r <message>"));
 				textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(Main.ESSENTIAL_MESSAGE.getString("message.command.reply.hover"))));
 				textComponent.setText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.reply.usage"));
+				
 				sender.sendMessage(textComponent);
 				return;
 			}
 
 			if (!MessageCommand.MESSAGE_LAST.containsKey(sender.getName())) {
-				sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.message.nobody")));
+				sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.message.nobody")));
 				return;
 			}
 
@@ -53,14 +55,14 @@ public class ReplyCommand extends Command {
 
 			// is the player in the database available
 			if (receiverUUID == null) {
-				sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.player.offline").replace("%player%", args[0])));
+				sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.player.offline").replace("%player%", args[0])));
 				return;
 			}
 
 			// Is player muted
 			if (Main.IS_LITE_BANS_LOADED) {
 				if (Database.get().isPlayerMuted((((ProxiedPlayer) sender).getUniqueId()), null)) {
-					sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.player.muted")));
+					sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.player.muted")));
 					return;
 				}
 			}
@@ -78,7 +80,7 @@ public class ReplyCommand extends Command {
 					messageBuilder.append(arg).append(" ");
 				}
 
-				sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.command.message.sender")
+				sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.command.message.sender")
 					.replace("%prefix%", Main.ESSENTIAL_MESSAGE.getString("message.prefix"))
 					.replace("%receiver%", receiverName)
 					.replace("%message%", messageBuilder.toString())));
@@ -86,12 +88,12 @@ public class ReplyCommand extends Command {
 				if (!StorageManager.isRedis()) {
 					ProxiedPlayer proxiedReceiverPlayer = ProxyServer.getInstance().getPlayer(receiverUUID);
 					if (proxiedReceiverPlayer == null) {
-						sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.player.offline").replace("%player%", args[0])));
+						sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.player.offline").replace("%player%", args[0])));
 						return;
 					}
 
 					if (!proxiedReceiverPlayer.isConnected()) {
-						sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.player.offline").replace("%player%", args[0])));
+						sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.player.offline").replace("%player%", args[0])));
 						return;
 					}
 
@@ -103,13 +105,13 @@ public class ReplyCommand extends Command {
 						if (spyPlayer.getName().equalsIgnoreCase(sender.getName())) continue;
 						if (proxiedReceiverPlayer.getName().equalsIgnoreCase(spyPlayer.getName())) continue;
 
-						spyPlayer.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.command.spy.format")
+						spyPlayer.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.command.spy.format")
 							.replace("%sender%", sender.getName())
 							.replace("%receiver%", proxiedReceiverPlayer.getName())
 							.replace("%message%", messageBuilder.toString())));
 					}
 
-					proxiedReceiverPlayer.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.command.message.receiver")
+					proxiedReceiverPlayer.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.command.message.receiver")
 						.replace("%prefix%", Main.ESSENTIAL_MESSAGE.getString("message.prefix"))
 						.replace("%sender%", sender.getName())
 						.replace("%message%", messageBuilder.toString())));
@@ -126,7 +128,7 @@ public class ReplyCommand extends Command {
 
 				new RedisCacheManager().publish(redisPacketBuilder.build());
 			} else {
-				sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.player.offline").replace("%player%", args[0])));
+				sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.player.offline").replace("%player%", args[0])));
 			}
 		}
 	}

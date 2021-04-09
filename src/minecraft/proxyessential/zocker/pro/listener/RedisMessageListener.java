@@ -52,13 +52,13 @@ public class RedisMessageListener implements Listener {
 					if (spyPlayer.getName().equalsIgnoreCase(senderName)) continue;
 					if (proxiedPlayer.getName().equalsIgnoreCase(spyPlayer.getName())) continue;
 
-					spyPlayer.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.command.spy.format")
+					spyPlayer.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.command.spy.format")
 						.replace("%sender%", senderName)
 						.replace("%receiver%", proxiedPlayer.getName())
 						.replace("%message%", message)));
 				}
 
-				proxiedPlayer.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.command.message.receiver")
+				proxiedPlayer.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.command.message.receiver")
 					.replace("%prefix%", Main.ESSENTIAL_MESSAGE.getString("message.prefix"))
 					.replace("%sender%", senderName)
 					.replace("%message%", message)));

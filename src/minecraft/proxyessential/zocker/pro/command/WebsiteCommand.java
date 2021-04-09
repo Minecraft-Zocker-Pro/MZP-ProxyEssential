@@ -20,6 +20,6 @@ public class WebsiteCommand extends Command {
 
 	@Override
 	public void onExecute(CommandSender sender, String[] args) {
-		sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.website")));
+		sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.website")));
 	}
 }

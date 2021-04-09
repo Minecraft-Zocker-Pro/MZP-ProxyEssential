@@ -35,18 +35,18 @@ public class SpyCommand extends Command {
 						new String[]{"uuid", "spy"},
 						new Object[]{zocker.getUUID(), 1});
 
-					sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.spy.enabled")));
+					sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.spy.enabled")));
 					return;
 				}
 
 				zocker.isValue("player_proxy_essential", "spy").thenAccept(aBoolean -> {
 					if (aBoolean) {
 						zocker.set("player_proxy_essential", "spy", 0);
-						sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.spy.disabled")));
+						sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.spy.disabled")));
 						SPIES.remove(zocker.getUUID());
 					} else {
 						zocker.set("player_proxy_essential", "spy", 1);
-						sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.spy.enabled")));
+						sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.spy.enabled")));
 						SPIES.add(zocker.getUUID());
 					}
 				});
@@ -55,6 +55,6 @@ public class SpyCommand extends Command {
 			return;
 		}
 
-		sender.sendMessage(new TextComponent(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + "§3You are already seeing all messages :)"));
+		sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + "§3You are already seeing all messages :)"));
 	}
 }
