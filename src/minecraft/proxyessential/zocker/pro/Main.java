@@ -63,6 +63,10 @@ public class Main extends CorePlugin {
 		ESSENTIAL_MESSAGE.set("message.command.website", "&3Our website: &6&nwww.minecraftzocker.net", "0.0.1");
 		ESSENTIAL_MESSAGE.set("message.command.teamspeak", "&3Our teamspeak server: &6&nts.minecraftzocker.net", "0.0.1");
 
+		ESSENTIAL_MESSAGE.set("message.command.rank.header", "&3-----< &6%player% current ranks&3 >-----", "0.0.1");
+		ESSENTIAL_MESSAGE.set("message.command.rank.none", "&6%player% &3dont have any temporary ranks!", "0.0.1");
+		ESSENTIAL_MESSAGE.set("message.command.rank.format", "&6%rank%&3 %days% %hours% %minutes% %seconds% left", "0.0.1");
+
 		ESSENTIAL_MESSAGE.setVersion("0.0.1", true);
 	}
 
@@ -86,6 +90,10 @@ public class Main extends CorePlugin {
 		pluginManager.registerCommand(this, new PingCommand());
 		pluginManager.registerCommand(this, new MessageCommand());
 		pluginManager.registerCommand(this, new ReplyCommand());
+
+		if (pluginManager.getPlugin("LuckPerms") != null) {
+			pluginManager.registerCommand(this, new RankCommand());
+		}
 
 		// Community
 		pluginManager.registerCommand(this, new DiscordCommand());

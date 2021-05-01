@@ -10,7 +10,7 @@ import java.util.List;
 public class TeamspeakCommand extends Command {
 
 	public TeamspeakCommand() {
-		super("teamspeak", "mzp.proxyessential.command.discord", new String[]{"ts3"});
+		super("teamspeak", "mzp.proxyessential.command.teamspeak", new String[]{"ts3"});
 	}
 
 	@Override

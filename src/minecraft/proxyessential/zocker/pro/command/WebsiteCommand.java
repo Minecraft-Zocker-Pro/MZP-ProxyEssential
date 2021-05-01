@@ -10,7 +10,7 @@ import java.util.List;
 public class WebsiteCommand extends Command {
 
 	public WebsiteCommand() {
-		super("website", "mzp.proxyessential.command.discord", new String[]{"forum", "site", "homepage"});
+		super("website", "mzp.proxyessential.command.website", new String[]{"forum", "site", "homepage"});
 	}
 
 	@Override

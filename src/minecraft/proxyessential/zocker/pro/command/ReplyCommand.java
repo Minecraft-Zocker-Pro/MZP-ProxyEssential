@@ -24,7 +24,7 @@ import java.util.UUID;
 public class ReplyCommand extends Command {
 
 	public ReplyCommand() {
-		super("reply", "mzp.proxyessential.command.reply", "r");
+		super("reply", "mzp.proxyessential.command.reply", new String[]{"r"});
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class ReplyCommand extends Command {
 				textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/r <message>"));
 				textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(Main.ESSENTIAL_MESSAGE.getString("message.command.reply.hover"))));
 				textComponent.setText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.reply.usage"));
-				
+
 				sender.sendMessage(textComponent);
 				return;
 			}

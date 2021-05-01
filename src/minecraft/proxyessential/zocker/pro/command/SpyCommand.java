@@ -29,7 +29,7 @@ public class SpyCommand extends Command {
 		if (sender instanceof ProxiedPlayer) {
 			Zocker zocker = Zocker.getZocker(((ProxiedPlayer) sender).getUniqueId());
 			if (zocker != null) {
-				boolean found = zocker.hasValue("player_proxy_essential", "spy");
+				boolean found = zocker.hasValue("player_proxy_essential", "spy").join();
 				if (!found) {
 					zocker.insert("player_proxy_essential",
 						new String[]{"uuid", "spy"},
