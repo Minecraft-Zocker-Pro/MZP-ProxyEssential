@@ -4,6 +4,7 @@ import minecraft.proxycore.zocker.pro.CorePlugin;
 import minecraft.proxycore.zocker.pro.config.Config;
 import minecraft.proxycore.zocker.pro.storage.StorageManager;
 import minecraft.proxyessential.zocker.pro.command.*;
+import minecraft.proxyessential.zocker.pro.listener.PlayerTabCompleteListener;
 import minecraft.proxyessential.zocker.pro.listener.RedisMessageListener;
 import minecraft.proxyessential.zocker.pro.listener.ZockerDataInitializeListener;
 import net.md_5.bungee.api.ProxyServer;
@@ -67,6 +68,13 @@ public class Main extends CorePlugin {
 		ESSENTIAL_MESSAGE.set("message.command.rank.none", "&6%player% &3dont have any temporary ranks!", "0.0.1");
 		ESSENTIAL_MESSAGE.set("message.command.rank.format", "&6%rank%&3 %days% %hours% %minutes% %seconds% left", "0.0.1");
 
+		ESSENTIAL_MESSAGE.set("message.command.vote.header", "&6&lVoting Pages", "0.0.1");
+		ESSENTIAL_MESSAGE.set("message.command.vote.list", new String[]{
+			"&31. &6&l&nGoo.gl/T3ZyDO",
+			"&32. &6&l&nGoo.gl/fM6IDt",
+			"&33. &6&l&nhttps://minecraft-server.eu/vote/index/14ABB"
+		}, "0.0.1");
+
 		ESSENTIAL_MESSAGE.setVersion("0.0.1", true);
 	}
 
@@ -101,6 +109,7 @@ public class Main extends CorePlugin {
 		pluginManager.registerCommand(this, new WebsiteCommand());
 
 		pluginManager.registerCommand(this, new SpyCommand());
+		pluginManager.registerCommand(this, new VoteCommand());
 	}
 
 	public void verifyDatabase() {
