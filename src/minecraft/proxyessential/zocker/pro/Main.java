@@ -83,6 +83,7 @@ public class Main extends CorePlugin {
 		PluginManager pluginManager = ProxyServer.getInstance().getPluginManager();
 		pluginManager.registerListener(this, new RedisMessageListener());
 		pluginManager.registerListener(this, new ZockerDataInitializeListener());
+		pluginManager.registerListener(this, new PlayerTabCompleteListener());
 	}
 
 	@Override
