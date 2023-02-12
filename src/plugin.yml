@@ -1,7 +1,7 @@
 name: MZP-ProxyEssential
 main: minecraft.proxyessential.zocker.pro.Main
 author: ludgart
-version: 0.0.2
+version: 0.0.3
 server: play.minecraftzocker.net
 homepage: www.minecraftzocker.net
 depends: [ MZP-ProxyCore ]

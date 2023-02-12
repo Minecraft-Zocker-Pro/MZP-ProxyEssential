@@ -2,6 +2,7 @@ package minecraft.proxyessential.zocker.pro.command;
 
 import litebans.api.Database;
 import minecraft.proxycore.zocker.pro.OfflineZocker;
+import minecraft.proxycore.zocker.pro.Zocker;
 import minecraft.proxycore.zocker.pro.command.Command;
 import minecraft.proxycore.zocker.pro.network.NetworkPlayerManager;
 import minecraft.proxycore.zocker.pro.storage.StorageManager;
@@ -19,6 +20,7 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class ReplyCommand extends Command {
@@ -67,7 +69,31 @@ public class ReplyCommand extends Command {
 				}
 			}
 
+			// check if player block the receiver
+			Zocker zocker = Zocker.getZocker(((ProxiedPlayer) sender).getUniqueId());
+
+			Map<String, String> typeMap = zocker.get("player_proxy_setting_blocked", new String[]{"type"}, new String[]{"player_uuid", "player_uuid_blocked"}, new Object[]{zocker.getUUIDString(), receiverUUID.toString()}).join();
+
+			if (typeMap != null) {
+				// receiver blocked the player (sender)
+				sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.ignore.you")
+					.replace("%receiver%", args[0])));
+
+				return;
+			}
+
+			// check if receiver blocked the player (sender)
 			OfflineZocker receiverOfflineZocker = new OfflineZocker(receiverUUID);
+			Map<String, String> typeMap2 = receiverOfflineZocker.get("player_proxy_setting_blocked", new String[]{"type"}, new String[]{"player_uuid", "player_uuid_blocked"}, new Object[]{receiverOfflineZocker.getUUIDString(), zocker.getUUIDString()}).join();
+
+			if (typeMap2 != null) {
+				// receiver blocked the player (sender)
+				sender.sendMessage(TextComponent.fromLegacyText(Main.ESSENTIAL_MESSAGE.getString("message.prefix") + Main.ESSENTIAL_MESSAGE.getString("message.command.ignore.receiver")
+					.replace("%receiver%", args[0])));
+
+				return;
+			}
+
 			String receiverName = OfflineZocker.getName(receiverUUID);
 
 			NetworkPlayerManager networkPlayerManager = new NetworkPlayerManager();

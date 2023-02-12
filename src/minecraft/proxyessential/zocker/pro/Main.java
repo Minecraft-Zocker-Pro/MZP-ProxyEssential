@@ -4,6 +4,8 @@ import minecraft.proxycore.zocker.pro.CorePlugin;
 import minecraft.proxycore.zocker.pro.config.Config;
 import minecraft.proxycore.zocker.pro.storage.StorageManager;
 import minecraft.proxyessential.zocker.pro.command.*;
+import minecraft.proxyessential.zocker.pro.command.ignore.IgnoreCommand;
+import minecraft.proxyessential.zocker.pro.command.ignore.IgnoreUndoCommand;
 import minecraft.proxyessential.zocker.pro.listener.PlayerTabCompleteListener;
 import minecraft.proxyessential.zocker.pro.listener.RedisMessageListener;
 import minecraft.proxyessential.zocker.pro.listener.ZockerDataInitializeListener;
@@ -16,6 +18,8 @@ public class Main extends CorePlugin {
 
 	public static Config ESSENTIAL_CONFIG;
 	public static Config ESSENTIAL_MESSAGE;
+
+	public static String ESSENTIAL_SETTING_BLOCK_TABLE;
 
 	@Override
 	public void onEnable() {
@@ -44,6 +48,7 @@ public class Main extends CorePlugin {
 		ESSENTIAL_MESSAGE.set("message.prefix", "&6&l[MZP]&3 ", "0.0.1");
 		ESSENTIAL_MESSAGE.set("message.player.offline", "&3Player &6%player% &3is offline.", "0.0.1");
 		ESSENTIAL_MESSAGE.set("message.player.muted", "&6You &3are muted!", "0.0.1");
+		ESSENTIAL_MESSAGE.set("message.player.invalid", "&3Player &6%player% &3not found.", "0.0.1");
 
 		ESSENTIAL_MESSAGE.set("message.command.ping.self", "&3Your ping &6%ping% ms.", "0.0.1");
 
@@ -68,6 +73,19 @@ public class Main extends CorePlugin {
 		ESSENTIAL_MESSAGE.set("message.command.rank.none", "&6%player% &3dont have any temporary ranks!", "0.0.1");
 		ESSENTIAL_MESSAGE.set("message.command.rank.format", "&6%rank%&3 %days% %hours% %minutes% %seconds% left", "0.0.1");
 
+		ESSENTIAL_MESSAGE.set("message.command.ignore.usage", "&3Use &6/block <player>", "0.0.3");
+		ESSENTIAL_MESSAGE.set("message.command.ignore.self", "&3You can't block yourself :(", "0.0.3");
+		ESSENTIAL_MESSAGE.set("message.command.ignore.success", "&3You successfully blocked &6%receiver%&3.", "0.0.3");
+		ESSENTIAL_MESSAGE.set("message.command.ignore.failed", "&3You already blocked &6%receiver%&3.", "0.0.3");
+		ESSENTIAL_MESSAGE.set("message.command.ignore.receiver", "&3The player &6%receiver% &3blocked you.", "0.0.3");
+		ESSENTIAL_MESSAGE.set("message.command.ignore.you", "&3You blocked the player &6%receiver%&3.", "0.0.3");
+
+		ESSENTIAL_MESSAGE.set("message.command.ignore.undo.usage", "&3Use &6/unblock <player &3to unblock a player.", "0.0.3");
+		ESSENTIAL_MESSAGE.set("message.command.ignore.undo.self", "&3You can't unblock yourself :(", "0.0.3");
+		ESSENTIAL_MESSAGE.set("message.command.ignore.undo.success", "&3You successfully unblocked &6%player%&3.", "0.0.3");
+		ESSENTIAL_MESSAGE.set("message.command.ignore.undo.failed", "&3Player &6%player% &3not found in your block list.", "0.0.3");
+
+
 		ESSENTIAL_MESSAGE.set("message.command.vote.header", "&6&lVoting Pages", "0.0.1");
 		ESSENTIAL_MESSAGE.set("message.command.vote.list", new String[]{
 			"&31. &6&l&nGoo.gl/T3ZyDO",
@@ -75,7 +93,7 @@ public class Main extends CorePlugin {
 			"&33. &6&l&nhttps://minecraft-server.eu/vote/index/14ABB"
 		}, "0.0.1");
 
-		ESSENTIAL_MESSAGE.setVersion("0.0.1", true);
+		ESSENTIAL_MESSAGE.setVersion("0.0.3", true);
 	}
 
 	@Override
@@ -99,6 +117,8 @@ public class Main extends CorePlugin {
 		pluginManager.registerCommand(this, new PingCommand());
 		pluginManager.registerCommand(this, new MessageCommand());
 		pluginManager.registerCommand(this, new ReplyCommand());
+		pluginManager.registerCommand(this, new IgnoreCommand());
+		pluginManager.registerCommand(this, new IgnoreUndoCommand());
 
 		if (pluginManager.getPlugin("LuckPerms") != null) {
 			pluginManager.registerCommand(this, new RankCommand());
@@ -116,13 +136,18 @@ public class Main extends CorePlugin {
 	public void verifyDatabase() {
 		String createTable = "CREATE TABLE IF NOT EXISTS `player_proxy_essential` (uuid VARCHAR(36) NOT NULL UNIQUE, `spy` tinyint(4) DEFAULT FALSE, FOREIGN KEY (uuid) REFERENCES player (uuid) ON DELETE CASCADE);";
 
+		ESSENTIAL_SETTING_BLOCK_TABLE = "player_proxy_setting_blocked";
+		String createSettingTable = "CREATE TABLE IF NOT EXISTS `player_proxy_setting_blocked` (player_uuid VARCHAR(36) NOT NULL, player_uuid_blocked VARCHAR(36) NOT NULL, `type` VARCHAR(16) DEFAULT NULL, FOREIGN KEY (player_uuid) REFERENCES player (uuid) ON DELETE CASCADE);";
+
 		if (StorageManager.isMySQL()) {
 			assert StorageManager.getMySQLDatabase() != null : "Create table failed.";
 			StorageManager.getMySQLDatabase().createTable(createTable);
+			StorageManager.getMySQLDatabase().createTable(createSettingTable);
 			return;
 		}
 
 		assert StorageManager.getSQLiteDatabase() != null : "Create table failed.";
 		StorageManager.getSQLiteDatabase().createTable(createTable);
+		StorageManager.getSQLiteDatabase().createTable(createSettingTable);
 	}
 }
