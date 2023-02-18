@@ -51,6 +51,7 @@ public class Main extends CorePlugin {
 		ESSENTIAL_MESSAGE.set("message.player.invalid", "&3Player &6%player% &3not found.", "0.0.1");
 
 		ESSENTIAL_MESSAGE.set("message.command.ping.self", "&3Your ping &6%ping% ms.", "0.0.1");
+		ESSENTIAL_MESSAGE.set("message.command.ping.other", "&3Player &6%player% &3ping is &6%ping% ms.", "0.0.1");
 
 		ESSENTIAL_MESSAGE.set("message.command.message.usage", "&3Use &6/msg <player> &3to send a message to a player", "0.0.1");
 		ESSENTIAL_MESSAGE.set("message.command.message.self", "&3You can't message yourself!", "0.0.1");
